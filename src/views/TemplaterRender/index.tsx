@@ -31,11 +31,6 @@ function TemplaterRender() {
     onValuesChange({}, values)
   }
 
-  // 找出需要设置数据的字段
-  const onTemplateChange = (e: any) => {
-    setTemplateInput(e.target.value)
-  }
-
   useEffect(() => {
     const pattern = /\{(.+?)\}/g
     const matchRes = templateInput.match(pattern) || []
@@ -82,7 +77,7 @@ function TemplaterRender() {
         </Col>
         <Col span={11}>
           <Card title="输出" bordered={false}>
-            <TextArea value={templateOutput} placeholder="" autoSize={{ minRows: 18, maxRows: 18 }} onChange={onTemplateChange} />
+            <TextArea value={templateOutput} placeholder="" autoSize={{ minRows: 18, maxRows: 18 }} />
           </Card>
         </Col>
       </Row>
