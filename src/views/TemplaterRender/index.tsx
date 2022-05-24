@@ -1,11 +1,14 @@
 import { useState } from 'react'
+// import Editor from '@monaco-editor/react'
 import { Typography, Row, Col, Card, Input } from 'antd'
-
+// import MonacoEditor from '../../components/MonacoEditor'
+// import AceEditor from '../../components/AceEditor'
 const { Title } = Typography
 const { TextArea } = Input
 
 function TemplaterRender() {
   const [template, setTemplate] = useState('')
+  const onTemplateChange = () => {}
 
   return (
     <div className="page templater-render">
@@ -16,6 +19,9 @@ function TemplaterRender() {
       <Row gutter={24}>
         <Col span={16}>
           <Card title="模版字符串内容" bordered={false}>
+            {/* <MonacoEditor></MonacoEditor> */}
+            {/* <AceEditor></AceEditor> */}
+            {/* <Editor height="90vh" defaultLanguage="javascript" defaultValue="// some comment" onChange={handleEditorChange} /> */}
             <TextArea placeholder="请输入" autoSize={{ minRows: 15, maxRows: 40 }} />
           </Card>
         </Col>
