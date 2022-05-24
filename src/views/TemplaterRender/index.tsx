@@ -3,7 +3,7 @@ import { useState, SyntheticEvent, useEffect } from 'react'
 import { Typography, Row, Col, Card, Input, Form } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { useLocalStorageState } from 'ahooks'
-// import MonacoEditor from '../../components/MonacoEditor'
+import MonacoEditor from '../../components/MonacoEditor'
 // import AceEditor from '../../components/AceEditor'
 const { Title } = Typography
 const { TextArea } = Input
@@ -89,7 +89,7 @@ function TemplaterRender() {
       <Row>
         <Col span={24}>
           <Card title="数据设置" bordered={false}>
-            <Form name="basic" form={form} labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} onValuesChange={onValuesChange}>
+            <Form name="basic" form={form} labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} onValuesChange={onValuesChange}>
               <Row>
                 {fieldList.map((field: string) => (
                   <Col span={6} key={field} style={{ marginTop: 4 }}>
