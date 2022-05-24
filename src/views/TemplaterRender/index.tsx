@@ -1,14 +1,15 @@
 import { useState, SyntheticEvent, useEffect } from 'react'
 // import Editor from '@monaco-editor/react'
-import { Typography, Row, Col, Card, Input, Form } from 'antd'
+import { Typography, Row, Col, Card, Input, Form, Button, Modal } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { useLocalStorageState } from 'ahooks'
 import MonacoEditor from '../../components/MonacoEditor'
+import Preset from './Preset'
 // import AceEditor from '../../components/AceEditor'
 const { Title } = Typography
 const { TextArea } = Input
 
-type TemplaterData = Record<string, string>
+export type TemplaterData = Record<string, string>
 
 function TemplaterRender() {
   const [templateInput, setTemplateInput] = useState('')
@@ -17,16 +18,10 @@ function TemplaterRender() {
   const [localTemplateData, setLocalTemplateData] = useLocalStorageState('TemplaterRenderDataRecord', {
     defaultValue: {} as TemplaterData
   })
+  const [formData, setFormData] = useState({} as TemplaterData)
 
   const [form] = Form.useForm()
-  const initForm = (fieldList: string[]) => {
-    const values = fieldList.reduce(
-      (prev: TemplaterData, field: string) => ({
-        ...prev,
-        [field]: localTemplateData?.[field] || ''
-      }),
-      {}
-    )
+  const initForm = (values: TemplaterData) => {
     form.setFieldsValue(values)
     onValuesChange({}, values)
   }
@@ -37,7 +32,16 @@ function TemplaterRender() {
     const matchFieldList = matchRes.map((field: string) => field.slice(1, -1).trim())
     const list = [...new Set(matchFieldList)] as string[]
     setFieldList(list)
-    initForm(list)
+
+    const values = list.reduce(
+      (prev: TemplaterData, field: string) => ({
+        ...prev,
+        [field]: localTemplateData?.[field] || ''
+      }),
+      {}
+    )
+    console.log('values: ', values)
+    initForm(values)
   }, [templateInput])
 
   const onValuesChange = (changedFields: TemplaterData, templateData: TemplaterData) => {
@@ -53,6 +57,7 @@ function TemplaterRender() {
       ...localTemplateData,
       ...templateData
     })
+    setFormData(templateData)
   }
 
   return (
@@ -83,7 +88,7 @@ function TemplaterRender() {
       </Row>
       <Row>
         <Col span={24}>
-          <Card title="数据设置" bordered={false}>
+          <Card title="数据设置" bordered={false} extra={<Preset formData={formData} onSelectPreset={initForm}></Preset>}>
             <Form name="basic" form={form} labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} onValuesChange={onValuesChange}>
               <Row>
                 {fieldList.map((field: string) => (
@@ -98,6 +103,12 @@ function TemplaterRender() {
           </Card>
         </Col>
       </Row>
+      {/* <Row justify="center">
+        <Button type="primary">数据存为模版</Button>
+        <Modal title="Basic Modal" visible={saveTemplateDataModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                  <Input></Input>
+      </Modal>
+      </Row> */}
     </div>
   )
 }
